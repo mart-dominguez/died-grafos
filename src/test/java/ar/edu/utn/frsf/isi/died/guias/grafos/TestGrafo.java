@@ -94,6 +94,20 @@ public class TestGrafo{
 		assertFalse(miGrafoConCiclos.existeCamino("D", "C"));
 		assertTrue(miGrafoConCiclos.existeCamino("C", "B")); // ver
 	}
+	
+	@Test
+	public void testExisteCaminoIterativo(){
+//		assertTrue(miGrafo.existeCaminoIterativo("A", "D"));
+//		assertFalse(miGrafo.existeCaminoIterativo("C", "D"));
+		assertTrue(miGrafoConCiclos.existeCaminoIterativo("A", "D"));
+//		assertTrue(miGrafoConCiclos.existeCaminoIterativo("A", "C"));
+//		assertTrue(miGrafoConCiclos.existeCaminoIterativo("A", "F"));
+//		assertFalse(miGrafoConCiclos.existeCaminoIterativo("F", "A"));
+//		assertTrue(miGrafoConCiclos.existeCaminoIterativo("C", "A"));
+//		assertFalse(miGrafoConCiclos.existeCaminoIterativo("D", "C"));
+//		assertTrue(miGrafoConCiclos.existeCaminoIterativo("C", "B")); // ver
+	}
+	
 }
 
 

@@ -10,12 +10,12 @@ import java.util.TreeMap;
 
 import ar.edu.utn.frsf.isi.died.guias.grafos.Arista;
 import ar.edu.utn.frsf.isi.died.guias.grafos.Vertice;
-public class Grafo<T extends Comparable<T>> {
+public class GrafoNO<T extends Comparable<T>> {
 
 	private List<Arista<T>> aristas;
 	private List<Vertice<T>> nodos;
 	
-	public Grafo(){
+	public GrafoNO(){
 		this.aristas = new ArrayList<Arista<T>>();
 		this.nodos = new ArrayList<Vertice<T>>();
 	}

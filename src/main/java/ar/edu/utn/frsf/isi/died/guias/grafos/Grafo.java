@@ -473,12 +473,7 @@ public class Grafo<T extends Comparable<T>> {
 		for(T unAdyacente : adyacentes){
 			if(unAdyacente.equals(vertice2)) return true;
 			else{
-				boolean buscar = false;
-				if(!buscados.contains(vertice2)){
-					buscados.add(vertice2);
-					buscar=true;
-				}
-				if ( buscar && existeCamino(unAdyacente, vertice2)) return true;
+				if ( existeCamino(unAdyacente, vertice2,buscados)) return true;
 			}
 		}
 		return false;
@@ -497,13 +492,25 @@ public class Grafo<T extends Comparable<T>> {
 	 * @throws VerticeInexistenteException
 	 *             Cuando no existe un vértice con alguno de los nombres dados.
 	 */
-	public boolean existeCaminoIterativo(T vertice1, T vertice2) {
-		List<T> adyacentes = this.getAdyacentes(vertice1);
-		Set<T> buscados = new HashSet<T>();
-		for(T unAdyacente : adyacentes){
-			if(unAdyacente.equals(vertice2)) return true;
-			else{
-				if ( existeCamino(unAdyacente, vertice2,buscados)) return true;
+	public boolean existeCaminoIterativo(T vertice1, T vertice2) {	
+		
+		Stack<T> aBuscar = new Stack<T>();
+		aBuscar.push(vertice1);
+		
+		while(!aBuscar.isEmpty()){
+			T aux = aBuscar.pop();			
+			List<T> adyacentes = this.getAdyacentes(aux);
+			Set<T> buscados = new HashSet<T>();
+			for(T unAdyacente : adyacentes){
+				if(unAdyacente.equals(vertice2)) return true;
+				else{					
+					System.out.println(aux);
+					System.out.println(buscados.toString());
+					if(!buscados.contains(unAdyacente)){
+						buscados.add(unAdyacente);
+						aBuscar.push(unAdyacente);
+					}
+				}
 			}
 		}
 		return false;
