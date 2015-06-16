@@ -496,16 +496,14 @@ public class Grafo<T extends Comparable<T>> {
 		
 		Stack<T> aBuscar = new Stack<T>();
 		aBuscar.push(vertice1);
+		Set<T> buscados = new HashSet<T>();
 		
 		while(!aBuscar.isEmpty()){
 			T aux = aBuscar.pop();			
 			List<T> adyacentes = this.getAdyacentes(aux);
-			Set<T> buscados = new HashSet<T>();
 			for(T unAdyacente : adyacentes){
 				if(unAdyacente.equals(vertice2)) return true;
 				else{					
-					System.out.println(aux);
-					System.out.println(buscados.toString());
 					if(!buscados.contains(unAdyacente)){
 						buscados.add(unAdyacente);
 						aBuscar.push(unAdyacente);
@@ -517,13 +515,15 @@ public class Grafo<T extends Comparable<T>> {
 	}
 	
 	private boolean existeCamino(T vertice1, T vertice2,Set<T> buscados) {
+		System.out.println(vertice1+" "+vertice2+ "  BUSCADOS ("+buscados.toString()+")");
 		boolean buscar = false;
-		if(!buscados.contains(vertice2)){
-			buscados.add(vertice2);
+		if(!buscados.contains(vertice1)){
+			buscados.add(vertice1);
 			buscar = true;
 		}
 		
 		List<T> adyacentes = this.getAdyacentes(vertice1);
+		System.out.println("ADY: "+adyacentes.toString());
 		for(T unAdyacente : adyacentes){
 			if(unAdyacente.equals(vertice2)) return true;
 			else{

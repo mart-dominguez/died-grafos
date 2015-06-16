@@ -37,6 +37,7 @@ public class TestGrafo{
 			miGrafoConCiclos.addNodo("D");
 			miGrafoConCiclos.addNodo("E");
 			miGrafoConCiclos.addNodo("F");
+			miGrafoConCiclos.addNodo("G");
 			miGrafoConCiclos.conectar("A", "B");
 			miGrafoConCiclos.conectar("A", "C");
 			miGrafoConCiclos.conectar("B", "D");
@@ -44,7 +45,9 @@ public class TestGrafo{
 			miGrafoConCiclos.conectar("C", "E");
 			miGrafoConCiclos.conectar("D", "F");
 			miGrafoConCiclos.conectar("E", "F");
-			miGrafoConCiclos.conectar("E", "A");
+			miGrafoConCiclos.conectar("E", "G");
+			miGrafoConCiclos.conectar("G", "C");
+			miGrafoConCiclos.conectar("G", "A");
 			
 	}
 	
@@ -97,15 +100,15 @@ public class TestGrafo{
 	
 	@Test
 	public void testExisteCaminoIterativo(){
-//		assertTrue(miGrafo.existeCaminoIterativo("A", "D"));
-//		assertFalse(miGrafo.existeCaminoIterativo("C", "D"));
+		assertTrue(miGrafo.existeCaminoIterativo("A", "D"));
+		assertFalse(miGrafo.existeCaminoIterativo("C", "D"));
 		assertTrue(miGrafoConCiclos.existeCaminoIterativo("A", "D"));
-//		assertTrue(miGrafoConCiclos.existeCaminoIterativo("A", "C"));
-//		assertTrue(miGrafoConCiclos.existeCaminoIterativo("A", "F"));
-//		assertFalse(miGrafoConCiclos.existeCaminoIterativo("F", "A"));
-//		assertTrue(miGrafoConCiclos.existeCaminoIterativo("C", "A"));
-//		assertFalse(miGrafoConCiclos.existeCaminoIterativo("D", "C"));
-//		assertTrue(miGrafoConCiclos.existeCaminoIterativo("C", "B")); // ver
+		assertTrue(miGrafoConCiclos.existeCaminoIterativo("A", "C"));
+		assertTrue(miGrafoConCiclos.existeCaminoIterativo("A", "F"));
+		assertFalse(miGrafoConCiclos.existeCaminoIterativo("F", "A"));
+		assertTrue(miGrafoConCiclos.existeCaminoIterativo("C", "A"));
+		assertFalse(miGrafoConCiclos.existeCaminoIterativo("D", "C"));
+		assertTrue(miGrafoConCiclos.existeCaminoIterativo("C", "B")); // ver
 	}
 	
 }
