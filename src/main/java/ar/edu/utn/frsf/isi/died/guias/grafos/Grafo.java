@@ -13,6 +13,10 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
+import ar.edu.utn.frsf.isi.died.guias.grafos.extra.MaxFlow.Edge;
+import ar.edu.utn.frsf.isi.died.guias.grafos.extra.MaxFlow.Node;
+import ar.edu.utn.frsf.isi.died.guias.grafos.extra.MaxFlow.ToVisit;
+
 
 public class Grafo<T extends Comparable<T>> {
 
@@ -75,14 +79,6 @@ public class Grafo<T extends Comparable<T>> {
 		System.out.println(this.aristas.toString());
 	}
 
-	public List<T> caminoMasCorto(T n1,T n2){
-		return null;
-	}
-
-	public List<T> caminoMenorPeso(T n1,T n2){
-		return null;
-	}
-	
 	/**
 	 * http://stackoverflow.com/questions/546655/finding-all-cycles-in-graph
 	 * 
@@ -141,15 +137,18 @@ public class Grafo<T extends Comparable<T>> {
 		for(Vertice<T> v : this.vertices){
 			gradoPorNodo.put(v.getValor(), this.gradoEntrada(v.getValor()));
 		}
-		for(Vertice<T> vert : this.vertices){
-			if(gradoPorNodo.get(vert.getValor())==0) {
-				resultado.add(vert.getValor());
-				for(T v: this.getAdyacentes(vert.getValor())){
-					int aux = gradoPorNodo.get(v);
-					gradoPorNodo.put(v, aux-1);
+//		for(Vertice<T> vert : this.vertices){
+		while(!gradoPorNodo.isEmpty()){
+			for(T vert : gradoPorNodo.keySet()){
+				if(gradoPorNodo.get(vert)==0) {
+					resultado.add(vert);
+					for(T v: this.getAdyacentes(vert)){
+						int aux = gradoPorNodo.get(v);
+						gradoPorNodo.put(v, aux-1);
+					}
+					gradoPorNodo.remove(vert);
 				}
-				gradoPorNodo.remove(vert.getValor());
-			}						
+			}
 		}		
 		return resultado;
 	}
@@ -428,33 +427,34 @@ public class Grafo<T extends Comparable<T>> {
 	}
 
 	/**
-	 * retorna la distancia más grande 
-	 * del menor camino que  hay entre 
-	 * n1 y cualquier otro nodo del grafo 
-	 * @param n1
-	 * @return
-	 */
-	public int excentricidad(T n1){
-		return 0;
-	}
-
-	/**
-	 * determina la máxima excentricidad 	del grafo
-	 * @param unGrafo
-	 */
-	public int diámetro(){
-		return 0;
-	}
-	
-	/**
-	 * retorna trae si existe un enlace para cada par de vertices
+	 * retorna trae si existe un enlace para cada par de vertices en una y solo una direccion
 	 * @return
 	 */
 	public boolean esCompleto(){
-		return false;
+		int i = 0;
+		for(i=0;i<this.vertices.size();i++){
+			Vertice<T> v1 = this.vertices.get(i);
+			List<Vertice<T>> adyacentesV1 = this.getAdyacentes(v1);
+			for(int j=0;j<this.vertices.size();j++){
+				Vertice<T> v2 = this.vertices.get(j);
+				List<Vertice<T>> adyacentesV2 = this.getAdyacentes(v2);
+				if(i!=j && !(adyacentesV1.contains(v2) ^ adyacentesV2.contains(v1))) return false;
+			}
+		}
+		return true;
 	}
 
-
+	
+	/**
+	 * retorna trae si existe un enlace para cada par de vertices en una y solo una direccion
+	 * cada vertice tiene N-1 salidas. La suma es N*N-1 y lo divido por 
+	 * @return
+	 */
+	public boolean esCompleto2(){
+		int nroVertices = this.vertices.size();
+		int nroAristas = this.aristas.size();
+		return (nroVertices*(nroVertices-1)/2)==nroAristas;
+	}
 	/**
 	 * Determina si existe un camino entre dos vértices.
 	 * 
@@ -556,5 +556,59 @@ public class Grafo<T extends Comparable<T>> {
 		// donde dicho caracter está presente comenzando con 0
 		return null;
 	}
+	
+	public int flujoMaximo(){
+		
+	}
+
+	public List<T> caminoMasCorto(T n1,T n2){
+		return null;
+	}
+
+	public List<T> caminoMenorPeso(T n1,T n2){
+		return null;
+	}
+	
+	private int buscar(Vertice<T> v1, Vertice<T> v2){
+		   // This does a bfs to find any path with available capacity, and floods it.
+        // The amount of flow sent through is returned.
+        // If 0 is returned, we are done.
+		List<Arista<T>> camino = new ArrayList<Arista<T>>();
+        int flujoMaximoCamino =Integer.MAX_VALUE;
+        // This is a standard BFS, but we keep track of the path.
+        Set<Vertice<T>> visitados = new HashSet<Vertice<T>>();
+        Queue<Vertice<T>> tovisit = new LinkedList<Vertice<T>>();
+//        tovisit.add(new ToVisit(node, null, null, Integer.MAX_VALUE));
+        tovisit.add(v1); 
+        while(!tovisit.isEmpty()) {
+            Vertice<T> visit  = tovisit.remove();
+            if(visit.equals(v2)) {
+                int flow = flujoMaximoCamino; // el maximo flujo que llevo en el reocrrido
+                // Backtrack
+                for(Arista<T> aris : camino){
+                	flow += aris.getValor().intValue();
+//                  while(tv != null && tv.e != null) {
+//                    tv.e.flow += flow;
+//                    tv.e.reverse.flow -= flow;
+//                    tv = tv.previous;
+                }
+                return flow;
+            }
+            
+            // Never visit the same node twice
+            if(visitados.contains(visit))
+                continue;
+            visitados.add(visit);
+            
+            // Forward edges
+            for(Arista a : visit.edges) {
+                if(e.capacity - e.flow > 0) {
+//                    tovisit.add(new ToVisit(e.to, tv, e, Math.min(tv.maxflow, e.capacity-e.flow)));
+                }
+            }
+        }
+        return 0;
+	}
+	
 }
 

@@ -14,7 +14,9 @@ public class TestGrafo{
 
 	static Grafo<String> miGrafo= new Grafo<String>();
 	static Grafo<String> miGrafoConCiclos = new Grafo<String>();
-	
+	static Grafo<String> miGrafoCompleto = new Grafo<String>();
+	static Grafo<String> miGrafoCompleto2 = new Grafo<String>();
+
 	@BeforeClass
 	public static void inicializar(){
 			miGrafo.addNodo("A");
@@ -49,6 +51,46 @@ public class TestGrafo{
 			miGrafoConCiclos.conectar("G", "C");
 			miGrafoConCiclos.conectar("G", "A");
 			
+			miGrafoCompleto.addNodo("A");
+			miGrafoCompleto.addNodo("B");
+			miGrafoCompleto.addNodo("C");
+			miGrafoCompleto.addNodo("D");
+			miGrafoCompleto.addNodo("E");
+			
+			miGrafoCompleto.conectar("A", "B");
+			miGrafoCompleto.conectar("A", "C");
+			miGrafoCompleto.conectar("A", "D");
+			miGrafoCompleto.conectar("A", "E");
+			
+			miGrafoCompleto.conectar("B", "C");
+			miGrafoCompleto.conectar("B", "D");
+			miGrafoCompleto.conectar("B", "E");
+
+			miGrafoCompleto.conectar("C", "D");
+			miGrafoCompleto.conectar("C", "E");
+
+			miGrafoCompleto.conectar("D", "E");
+
+			miGrafoCompleto2.addNodo("A");
+			miGrafoCompleto2.addNodo("B");
+			miGrafoCompleto2.addNodo("C");
+			miGrafoCompleto2.addNodo("D");
+			miGrafoCompleto2.addNodo("E");
+			
+			miGrafoCompleto2.conectar("A", "B");
+			miGrafoCompleto2.conectar("A", "C");
+			miGrafoCompleto2.conectar("A", "D");
+			miGrafoCompleto2.conectar("A", "E");
+			
+			miGrafoCompleto2.conectar("B", "C");
+			miGrafoCompleto2.conectar("B", "D");
+			miGrafoCompleto2.conectar("B", "E");
+
+			miGrafoCompleto2.conectar("C", "D");
+			miGrafoCompleto2.conectar("C", "E");
+
+			miGrafoCompleto2.conectar("D", "E");
+			miGrafoCompleto2.conectar("E", "D");
 	}
 	
 	@Test 
@@ -76,7 +118,7 @@ public class TestGrafo{
 		assertEquals(1,miGrafo.gradoEntrada("C"));
 		assertEquals(1,miGrafo.gradoEntrada("D"));
 		assertEquals(2,miGrafo.gradoEntrada("E"));
-		assertEquals(2,miGrafo.gradoEntrada("F"));		
+		assertEquals(4,miGrafo.gradoEntrada("F"));		
 	}
 	
 	@Test
@@ -109,6 +151,20 @@ public class TestGrafo{
 		assertTrue(miGrafoConCiclos.existeCaminoIterativo("C", "A"));
 		assertFalse(miGrafoConCiclos.existeCaminoIterativo("D", "C"));
 		assertTrue(miGrafoConCiclos.existeCaminoIterativo("C", "B")); // ver
+	}
+	
+	@Test
+	public void testEsCompleto(){
+		assertFalse(miGrafo.esCompleto());
+		assertFalse(miGrafo.esCompleto2());
+		assertTrue(miGrafoCompleto.esCompleto());
+		assertFalse(miGrafoCompleto.esCompleto2());
+		assertFalse(miGrafoConCiclos.esCompleto());
+		assertFalse(miGrafoConCiclos.esCompleto2());
+		assertFalse(miGrafoCompleto2.esCompleto());
+		assertFalse(miGrafoCompleto2.esCompleto2());
+
+
 	}
 	
 }

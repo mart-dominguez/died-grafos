@@ -31,7 +31,7 @@ public class Vertice<T extends Comparable<T>> implements Comparable<T>{
 	
 	@SuppressWarnings("unchecked")
 	public int compareTo(T obj) {
-		if(obj instanceof Vertice) return this.valor.compareTo( (T) ((Vertice) obj).valor);
+		if(obj instanceof Vertice) return this.valor.compareTo( (T) ((Vertice<?>) obj).valor);
 		return 0;
 	};
 }

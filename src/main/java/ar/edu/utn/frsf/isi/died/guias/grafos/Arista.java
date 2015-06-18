@@ -4,9 +4,10 @@ public class Arista<T extends Comparable<T>> {
 
 	private Vertice<T> inicio;
 	private Vertice<T> fin;
-	private Number valor;
-	
-	
+	private Double valor;
+	private Double flujo;
+
+
 	public Arista(){
 		valor=0.0;
 	}
@@ -17,7 +18,7 @@ public class Arista<T extends Comparable<T>> {
 		this.fin = fin;
 	}
 
-	public Arista(Vertice<T> ini,Vertice<T> fin,Number val){
+	public Arista(Vertice<T> ini,Vertice<T> fin,Double val){
 		this(ini,fin);
 		this.valor= val;
 	}
@@ -42,8 +43,16 @@ public class Arista<T extends Comparable<T>> {
 		return valor;
 	}
 
-	public void setValor(Number valor) {
+	public void setValor(Double valor) {
 		this.valor = valor;
+	}
+	
+	public Double getFlujo() {
+		return flujo;
+	}
+
+	public void setFlujo(Double flujo) {
+		this.flujo = flujo;
 	}
 	
 	@Override
